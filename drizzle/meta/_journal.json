@@ -15,6 +15,20 @@
       "when": 1721473893229,
       "tag": "0001_mature_surge",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1721482657802,
+      "tag": "0002_typical_daredevil",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1721483094015,
+      "tag": "0003_conscious_lady_bullseye",
+      "breakpoints": true
     }
   ]
 }
