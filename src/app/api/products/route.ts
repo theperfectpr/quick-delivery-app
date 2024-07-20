@@ -1,6 +1,7 @@
 import { db } from "@/lib/db/db";
 import { products } from "@/lib/db/schema";
 import { productSchema } from "@/lib/validators/productSchema";
+import { desc } from "drizzle-orm";
 import { writeFile, unlink } from "node:fs/promises";
 import path from "node:path";
 
@@ -33,4 +34,13 @@ export async function POST(req: Request) {
         return Response.json({message: "Failed to store the product in the database"},{status: 500});
     }
     return Response.json({message: "Product added successfully"}, {status: 201});
+}
+
+export async function GET(){
+    try {
+        const allProducts = await db.select({id: products.id}).from(products).orderBy(desc(products.id))
+        return Response.json(allProducts,{status: 200});
+    } catch (error) {
+        return Response.json({message: "Failed to fetch the products"},{status: 500});
+    }   
 }
