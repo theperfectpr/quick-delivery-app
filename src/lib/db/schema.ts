@@ -50,3 +50,13 @@ export const deliveryPersons = pgTable("delivery_persons",{
     updatedAt: timestamp("updated_at").default(sql`CURRENT_TIMESTAMP`),
     createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`)
 })
+
+export const inventories = pgTable("inventories",{
+    id: serial("id").primaryKey(),
+    sku: varchar("sku", {length: 8}).unique().notNull(),
+    warehouseId: integer("warehouse_id").references(() => warehouses.id, {onDelete: "cascade"}),
+    productId: integer("product_id").references(() => products.id, {onDelete: "cascade"}),
+    orderId: integer("order_id").references(() => orders.id, {onDelete: "set null"}),
+    updated_at: timestamp("updated_at").default(sql`CURRENT_TIMESTAMP`),
+    created_at: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`)
+})
