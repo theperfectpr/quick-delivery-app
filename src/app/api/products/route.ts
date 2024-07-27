@@ -38,7 +38,7 @@ export async function POST(req: Request) {
 
 export async function GET(){
     try {
-        const allProducts = await db.select({id: products.id}).from(products).orderBy(desc(products.id))
+        const allProducts = await db.select({id: products.id, name: products.name, price: products.price}).from(products).orderBy(desc(products.id))
         return Response.json(allProducts,{status: 200});
     } catch (error) {
         return Response.json({message: "Failed to fetch the products"},{status: 500});
