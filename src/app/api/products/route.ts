@@ -1,6 +1,6 @@
 import { db } from "@/lib/db/db";
 import { products } from "@/lib/db/schema";
-import { productSchema } from "@/lib/validators/productSchema";
+import { isServer, productSchema } from "@/lib/validators/productSchema";
 import { desc } from "drizzle-orm";
 import { writeFile, unlink } from "node:fs/promises";
 import path from "node:path";
@@ -18,10 +18,13 @@ export async function POST(req: Request) {
     } catch (error) {
         return Response.json({message: error},{status: 400});
     }
-    const fileName = `${Date.now()}.${validatedData.image.name.split(".").slice(-1)}`;
+    const inputImage = isServer
+        ? (validatedData.image as File)
+        : (validatedData.image as FileList)[0];
+    const fileName = `${Date.now()}.${inputImage.name.split(".").slice(-1)}`;
     
     try {
-        const buffer = Buffer.from(await validatedData.image.arrayBuffer());
+        const buffer = Buffer.from(await inputImage.arrayBuffer());
         await writeFile(path.join(process.cwd(), "public/assets",fileName), buffer);
 
     } catch (error) {

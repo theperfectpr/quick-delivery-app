@@ -1,4 +1,5 @@
 "use client";
+import { isServer } from "@/lib/validators/productSchema";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 let browserQueryClient: QueryClient | undefined = undefined;
@@ -8,7 +9,7 @@ function makeQueryClient() {
 //singleton pattern
 function getQueryClient() {
   //we are on server
-  if (typeof window === undefined) {
+  if (isServer) {
     return makeQueryClient();
   } else {
     //we are on client
